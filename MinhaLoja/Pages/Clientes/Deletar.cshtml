@@ -1,0 +1,25 @@
+﻿@page
+@using System.Data.SqlClient;
+@{
+    try
+    {
+        String id = Request.Query["id"];
+        String connString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Victor\\VSCode\\MinhaLoja\\db\\db.mdf;Integrated Security=True;Connect Timeout=30";
+        using (SqlConnection connection = new SqlConnection(connString))
+        {
+            connection.Open();
+
+            String sql = "DELETE FROM clientes WHERE id=@id";
+            using (SqlCommand command = new SqlCommand (sql, connection))
+            {
+                command.Parameters.AddWithValue("@id", id);
+
+                command.ExecuteNonQuery();
+            }
+        }
+    }
+    catch (Exception ex)
+    {
+    }
+    Response.Redirect("/Clientes/Index");
+}
